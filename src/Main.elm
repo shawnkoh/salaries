@@ -15,14 +15,25 @@ main =
 
 
 type alias Model =
-    { property : Int
-    , property2 : String
+    { csv : Maybe String }
+
+
+type alias Data =
+    { status : Status
+    , company : String
+    , role : String
+    , monthlySalary : Float
     }
+
+
+type Status
+    = FreshGrad
+    | Internship
 
 
 init : () -> ( Model, Cmd Msg )
 init () =
-    ( Model 0 "modelInitialValue2", Cmd.none )
+    ( Model Maybe.Nothing, Cmd.none )
 
 
 type Msg
