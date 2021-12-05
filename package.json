@@ -11,5 +11,7 @@
   "dependencies": {
     "esbuild": "^0.14.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "elm-tooling": "^1.7.0"
+  }
 }
