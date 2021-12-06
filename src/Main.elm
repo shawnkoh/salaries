@@ -2,6 +2,7 @@ module Main exposing (main)
 
 import Browser
 import Html exposing (..)
+import Csv.Decode as Decode exposing (Decoder)
 
 
 main : Program () Model Msg
@@ -29,6 +30,9 @@ type alias Data =
 type Status
     = FreshGrad
     | Internship
+
+decoder : Decoder Data =
+    Decode.into Data
 
 
 init : () -> ( Model, Cmd Msg )
