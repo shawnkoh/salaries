@@ -1,7 +1,6 @@
 import { Elm } from "./Main.elm"
-const $root = document.createElement('div');
 
-document.body.appendChild($root);
+const $root = document.querySelector("#root")
 
 Elm.Main.init({
   node: $root

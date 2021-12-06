@@ -5,8 +5,7 @@
   "main": "main.js",
   "scripts": {
     "build": "node ./build.js",
-    "dev": "node ./build.js --watch",
-    "postinstall": "elm-tooling install"
+    "dev": "node ./build.js"
   },
   "author": "",
   "license": "ISC",
