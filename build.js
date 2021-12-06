@@ -7,17 +7,19 @@ devServer.start(
 		entryPoints: ['src/index.js'],
 		// Warning: bundle does not cleanup unused files.
 		bundle: true,
-		outdir: 'dist',
+		outdir: 'public/js',
 		incremental: true,
 		plugins: [
 			ElmPlugin()
-		]
+		],
 	}).catch(e => (console.error(e), process.exit(1))),
 	{
 		port: "8080",
 		watchDir: "src",
-		index: "./index.html",
-		staticDir: "dist"
+		index: "public/index.html",
+		staticDir: "public",
+		onAfterRebuild() {},
+		onBeforeRebuild() {},
 	}
 )
 
