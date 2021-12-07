@@ -4,6 +4,7 @@ import Browser
 import Html exposing (..)
 import Json.Decode as Decode
 import Json.Decode.Pipeline as Pipeline
+import Json.Print
 
 
 main : Program Decode.Value Model Msg
@@ -44,7 +45,7 @@ datapointDecoder =
 decodeModel : Decode.Value -> Model
 decodeModel json =
     let
-        _ = Debug.log "json: " json
+        _ = Debug.log "json: " (Json.Print.prettyValue (Json.Print.Config 4 4) json)
     in
     case Decode.decodeValue (Decode.list datapointDecoder) json of
         Ok value ->
