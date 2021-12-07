@@ -1,6 +1,7 @@
 const { build } = require("esbuild")
 const ElmPlugin = require("esbuild-plugin-elm")
 const devServer = require("esbuild-dev-server")
+const { dsvPlugin } = require("esbuild-plugin-dsv")
 
 devServer.start(
 	build({
@@ -10,6 +11,7 @@ devServer.start(
 		outdir: 'public/js',
 		incremental: true,
 		plugins: [
+			dsvPlugin(),
 			ElmPlugin()
 		],
 	}).catch(e => (console.error(e), process.exit(1))),

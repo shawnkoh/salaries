@@ -1,0 +1,263 @@
+Type,Company,Role,Monthly/Annual Salary (Specify if not SGD)
+Fresh Grad,ShopBack,Software Engineer,7000
+Fresh Grad,Shopee,Software Engineer,7500
+Internship,Shopee,Software Engineer,4200
+Fresh Grad,Facebook,Software Engineer,9333
+Fresh Grad,Facebook,Software Engineer,9333
+Internship,ByteDance,Software Engineer,4000
+Internship,Apple,Software Engineer,3300
+Internship,Shopee,Systems QA,1200
+Internship,AlphaLab Capital,Software Engineer,5000
+Internship,Open Government Products,Software Engineer,3000
+Internship,Shopee,Data Analyst,2000
+Internship,Razer,Software Engineer,1000
+Internship,Stripe,Software Engineer,6000
+Internship,Goldman Sachs,Software Engineer,5750
+Internship,Shopee,Software Engineer,4200
+Internship,GovTech,Software Engineer,2000
+Internship,Google,Software Engineer,5500
+Fresh Grad,Goldman Sachs,Software Engineer,6250
+Fresh Grad,Shopee,Software Engineer,7500
+Internship,Shopee,Software Engineer,4200
+Internship,Jump Trading,TechOps,11000
+Internship,Goldman Sachs,Software Engineer,5750
+Internship,Tiktok,Software Engineer,3700
+Fresh Grad,Shopee,Software Engineer,8000
+Internship,Facebook,Software Engineer,6000
+Internship,CitiBank,Software Engineer,3000
+Internship,Grasshopper,Software Engineer,1200
+Internship,IBM,Software Engineer,1200
+Fresh Grad,Ninja Van,Software Engineer,5500
+Internship,Visa,Software Engineer,2500
+Internship,ByteDance,Data Engineer,4000
+Internship,NCS,Software Engineer,1700
+Internship,Creative,Software Engineer,1800
+Internship,Thales,Software Engineer,2000
+Internship,GovTech,Software Engineer,2000
+Internship,Cloudflare,Software Engineer,2000
+Internship,Shopee,Data Science,4200
+Internship,ByteDance,Machine Learning Engineer,4000
+Internship,Google,Software Engineer,5400
+Internship,Zendesk,Software Engineer,2500
+Internship,JPMorgan,Software Engineer,5883
+Internship,Bank of America,Software Engineer,5667
+Internship,99.co,Software Engineer,1000
+Internship,Garena,Software Engineer,3000
+Internship,GIC,Data Analyst,2500
+Internship,ComfortDelGro,Business Analyst,900
+Internship,KPMG,Software Engineer,850
+Internship,Autodesk,Software Engineer,1800
+Fresh Grad,Shopee,Software Engineer,12000
+Fresh Grad,Indeed,Software Engineer,7900
+Internship,DHL,Software Engineer,1200
+Internship,Yara,Software Engineer,1120
+Internship,Morgan Stanley,Software Engineer,5000
+Internship,ByteDance,Software Engineer,4000
+Internship,Visa,Software Engineer,2200
+Fresh Grad,Constructor,Software Engineer,12500
+Internship,TikTok,Software Engineer,4830
+Internship,AlphaLab Capital,Software Engineer,5000
+Internship,Grab,Software Engineer,2500
+Internship,ShopBack,Software Engineer,1000
+Internship,Open Government Products,Software Engineer,3000
+Internship,PayPal,Software Engineer,2000
+Fresh Grad,Shopee,Software Engineer,6500
+Internship,Shopee,Software Engineer,4200
+Internship,Grab,Product Management,1500
+Internship,Autodesk,Software Engineer,2500
+Internship,TikTok,Data Analyst,1400
+Internship,GovTech,Data Science / Engineer,2500
+Internship,Sea Group,Data Analyst,2000
+Internship,Shopee,Data Analyst,1200
+Internship,Shopee,Software Engineer,4200
+Internship,JPMorgan,Software Engineer,5833
+Fresh Grad,DSO National Labs,Data Analyst,5400
+Internship,Garena,Software Engineer,4200
+Internship,DSTA,ML Engineer,2500
+Internship,SAP,ML Engineer,1400
+Internship,Siemens,Data Engineer,1000
+Internship,Squarepoint Capital,Software Engineer,7000
+Internship,ByteDance,Software Engineer,3900
+Internship,GlobalFoundries,QA,1500
+Internship,Schneider Electric Pte Ltd,Software Engineer,1200
+Internship,PayPal,Software Engineer,2000
+Internship,Bosch,Software Engineer,1500
+Internship,GIC,Software Engineer,5600
+Internship,SAP,AI Engineer,1400
+Internship,Illumina,Software Engineer,1200
+Internship,PayPal,Software Engineer,2000
+Fresh Grad,Thoughtworks,Software Engineer,4800
+Internship,TikTok,Software Engineer,3700
+Internship,ByteDance,Software Engineer,4000
+Internship,Apple,Software Engineer,3300
+Fresh Grad,Google,Software Engineer,7167
+Internship,Amazon (AWS),Professional Services Intern,3000
+Fresh Grad,TikTok,Software Engineer,7400
+Internship,Grab,Product Management Intern,2500
+Internship,SGInnovate Infinity Series,Software Engineer,1500
+Internship,GovTech,Software Engineer,2500
+Internship,Virtu Financial,Software Engineer,12500
+Internship,DRW,Software Engineer,9200
+Internship,GIC,Software Engineer,2500
+Internship,Workclass,Software Engineer,1500
+Internship,Shopee,UI Developer,1200
+Internship,NTUC Income,Software Engineer,1000
+Internship,A*Star,Software Engineer,300
+Internship,SGInnovate Summation Series,Data Science/Engineer,3000
+Internship,JPMorgan,Software Engineer,5833
+Internship,Credit Suisse,Software Engineer,7500
+Internship,JPMorgan,Software Engineer,5833
+Internship,Open Government Products,Software Engineer,3000
+Internship,F5 Networks,Software Engineer,1500
+Internship,Autodesk,Software Engineer,1800
+Internship,JPMorgan,Software Engineer,5833
+Internship,ByteDance,Software Engineer,5000
+Internship,Govtech,Product Management,2000
+Internship,Foodpanda,Data Analyst,1000
+Internship,Facebook,Software Engineer,6000
+Internship,Infineon,Data Scientist,1500
+Internship,Accenture,Software Engineer,1500
+Internship,DSO National Laboratories,Software Engineer,1800
+Internship,ByteDance,Software Engineer,4000
+Fresh Grad,Goldman Sachs,Software Engineer,5833
+Internship,Indeed,Software Engineer,5000
+Internship,Micron,Network Engineer,1500
+Internship,Sprinklr,Software Engineer,6000
+Internship,Accenture,Project Management,1500
+Internship,Accenture,Software Engineer,1500
+Internship,JPMorgan,Software Engineer,5883
+Internship,CSIT,Cybersecurity,1800
+Internship,Squarepoint Capital,Software Engineer,7083
+Internship,ByteDance,Backend Intern,3600
+Fresh Grad,DSTA,Software Engineer,5400
+Fresh Grad,Bank of America,Software Engineer,5100
+Fresh Grad,Motional,Software Engineer,8500
+Fresh Grad,JP Morgan,Software Engineer,5416
+Internship,Sea Group,Software Engineer,2000
+Internship,TikTok,Software Engineer,4830
+Internship,Alstom,Software Engineer,1500
+Fresh Grad,Alphalab Capital,Software Engineer,6500
+Internship,HTX,Cybersecurity,1500
+Fresh Grad,Squarepoint Capital,Software Engineer,7083
+Internship,Grab,Software Engineer,2500
+Fresh Grad,Institute for Infocomm Research (I2R),Research Engineer,3700
+Internship,I2R,Software Engineer,1200
+Fresh Grad,ByteDance,Software Engineer,7000
+Fresh Grad,Google,Software Engineer,7166
+Fresh Grad,Shopee,Software Engineer,5800
+Fresh Grad,ByteDance,Software Engineer,6800
+Fresh Grad,Google,Software Engineer,10000
+Internship,StashAway,Software Engineer,1000
+Internship,CSIT,Software Engineer,800
+Internship,UCARS,Software Engineer,1000
+Fresh Grad,Ubisoft Singapore,Junior Engine Programmer,3800
+Internship,Autodesk,Software Engineer,2500
+Internship,Ubisoft Singapore,Gameplay Programming Intern,1000
+Fresh Grad,NCS,Software Engineer,5200
+Fresh Grad,Shopee,Software Engineer,6200
+Fresh Grad,NCS,Software Engineer,4200
+Internship,Bank Of America,Software Engineer,3300
+Fresh Grad,Jane Street,Software Engineer,30000
+Internship,DSO,Software Engineer,1800
+Internship,Bank of Singapore,Software Engineer,1300
+Fresh Grad,Ubisoft Singapore,Junior Data Scientist,5000
+Internship,AMD,Software Engineer,1500
+Fresh Grad,NCS,Software Engineer,6000
+Internship,Jane Street Capital,Software Engineer,"22,733.82"
+Fresh Grad,Accenture,Software Engineer,5750
+Internship,Citi,Software Engineer,3000
+Fresh Grad,JPMorgan,Software Engineer,5667
+Fresh Grad,Sea Labs,Software Engineer,7000
+Internship,PayPal,InfoSec Intern,2000
+Fresh Grad,DSO,Software Engineer,5000
+Fresh Grad,Dell,Data Engineer,5417
+Fresh Grad,DSTA,Software Engineer,5000
+Fresh Grad,Open Government Products,Software Engineer,7770
+Internship,GIC,Data Analyst,2500
+Internship,Micron,Data science Intern,1500
+Fresh Grad,DBS,Software Engineer,5000
+Internship,DBS,Software Engineer,1500
+Internship,EY,Cybersecurity,800
+Fresh Grad,NCS,Software Engineer,5678
+Fresh Grad,Ubisoft Singapore,Gameplay Programmer (Junior),5000
+Fresh Grad,Acronis,Junior Software Engineer,4600
+Internship,Autodesk,Software Engineer,1800
+Internship,DBS,Software Engineer,1500
+Internship,Apple,Software Engineer,1550
+Internship,Seagate Technology,Software Development,1300
+Internship,Acronis,Software Engineer,1500
+Fresh Grad,JPMorgan,Software Engineer,5833
+Internship,Agoda,Software Engineer,2000
+Fresh Grad,Stripe,Software Engineer,8333
+Fresh Grad,Indeed,Software Engineer,5833
+Internship,Indeed,Software Engineer,2000
+Fresh Grad,Indeed,Software Engineer,5417
+Fresh Grad,Indeed,Software Engineer,5417
+Internship,Credit Suisse,Software Engineer,7500
+Fresh Grad,Goldman Sachs,Software Engineer,6250
+Fresh Grad,3forge,Software Engineer,8333
+Internship,IMDA,Data Science Intern,1500
+Internship,DSO,Machine Learning Intern,1800
+Internship,EY,Software Engineer,800
+Internship,Sea Labs,Software Engineer,4200
+Fresh Grad,Lazada,Software Engineer,5000
+Internship,Credit Suisse,Software Engineer,7500
+Internship,Visa,Software Engineer,2200
+Internship,Morgan Stanley,Software Engineer,5000
+Fresh Grad,Ubisoft Singapore,Gameplay Programmer,5000
+Fresh Grad,Shopee,Software Engineer,7200
+Internship,Grab,Software Engineer,2500
+Internship,Google,Software Engineer,4067
+Fresh Grad,AWS,Solutions Architect,7000
+Fresh Grad,DSO,Cyber,5400
+Internship,Indeed,Software Engineer,2500
+Internship,ByteDance,Software Engineer,4000
+Internship,Visa,Software Engineer,2200
+Internship,Thales,Software Engineer,1200
+Fresh Grad,ByteDance,Software Engineer,7350
+Fresh Grad,ByteDance,Software Engineer,7200
+Fresh Grad,Ubisoft Singapore,Junior Tools Programmer,5400
+Fresh Grad,Hodlnaut,Software Engineer,6000
+Fresh Grad,ByteDance,Software Engineer,6800
+Fresh Grad,ByteDance,Software Engineer,7000
+Internship,GIC (GIP),Software Engineer,5600
+Fresh Grad,Ninja Van,Software Engineer,5500
+Internship,Visa,Software Engineer,2200
+Internship,AWS,Solution Architect,3000
+Internship,HodInaut,Software Engineer,7500
+Internship,AWS,Solutions Architect,3000
+Internship,Shopee,Product Management Intern,1200
+Fresh Grad,Shopee,Software Engineer,6200
+Fresh Grad,Indeed,Software Engineer,95000
+Internship,Visa,Software Engineer,2200
+Fresh Grad,Visa,Software Engineer,6200
+Fresh Grad,Viki,Software Engineer,5000
+Internship,Paypal,Infosec Intern,2000
+Internship,GIC,Cyber Defence Intern,2500
+Fresh Grad,DSTA,Software Engineer,5000
+Internship,Bank of America,Summer Analyst - Global Information Security,5666.67
+Internship,Indeed,Software Engineer,5800
+Internship,Stealth Startup,Software Engineer,3000
+Internship,Visa,Software Engineer,2200
+Internship,GovTech,Software Engineer,2500
+Internship,IBM,Software Engineer,2000
+Internship,GIC,Software Engineer,2500
+Internship,PayPal,ML Engineer,2000
+Internship,TikTok,Big Data Engineer,3900
+Fresh Grad,Virtu Financial,Software Engineer,7000
+Fresh Grad,Ubisoft Singapore,Rendering Programmer,3600
+Internship,Motional,Software Engineer,7500
+Fresh Grad,Ubisoft Singapore,Junior Gameplay Programmer,5600
+Fresh Grad,PSA,IT Operation Executive,2500
+Internship,Open Government Products,Software Engineer,4500
+Internship,Bank of America,Software Engineer,5667
+Internship,Google,Software Engineer,5400
+Internship,Trail of Bits,Security Engineer,3424
+Internship,Continental,Software Security Engineer,1200
+Internship,Mandiant,Cyber Threat Intelligence Engineer,1500
+Fresh Grad,Ubisoft Singapore,Junior Gameplay Programmer,3700
+Internship,Hypotenuse AI,Software Engineer,6000
+Internship,Autodesk,Software Engineer,1800
+Internship,IBM,Software Engineer,4500
+Internship,GovTech,Software Engineer,2000
+Internship,Jump Trading,TechOps Engineer,11000

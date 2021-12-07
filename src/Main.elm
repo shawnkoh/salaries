@@ -1,11 +1,12 @@
-module Main exposing (main)
+module Main exposing (..)
 
 import Browser
 import Html exposing (..)
-import Csv.Decode as Decode exposing (Decoder)
+import Json.Decode as Decode
+import Json.Decode.Pipeline as Pipeline
 
 
-main : Program () Model Msg
+main : Program Decode.Value Model Msg
 main =
     Browser.element
         { init = init
@@ -16,11 +17,11 @@ main =
 
 
 type alias Model =
-    { csv : Maybe String }
+    { data: Maybe (List Datapoint) }
 
 
-type alias Data =
-    { status : Status
+type alias Datapoint =
+    { status : String
     , company : String
     , role : String
     , monthlySalary : Float
@@ -31,13 +32,36 @@ type Status
     = FreshGrad
     | Internship
 
-decoder : Decoder Data =
-    Decode.into Data
+datapointDecoder : Decode.Decoder Datapoint
+datapointDecoder =
+    Decode.succeed Datapoint
+    |> Pipeline.required "Type" Decode.string
+    |> Pipeline.required "Company" Decode.string
+    |> Pipeline.required "Role" Decode.string
+    |> Pipeline.required "Monthly/Annual Salary (Specify if not SGD)" Decode.float
 
 
-init : () -> ( Model, Cmd Msg )
-init () =
-    ( Model Maybe.Nothing, Cmd.none )
+decodeModel : Decode.Value -> Model
+decodeModel json =
+    let
+        _ = Debug.log "json: " json
+    in
+    case Decode.decodeValue (Decode.list datapointDecoder) json of
+        Ok value ->
+            let
+                _ = Debug.log "value: " value
+            in
+            Model (Just value)
+        Err error ->
+            let
+                _ = Debug.log "error: " (Decode.errorToString error)
+            in
+            Model Nothing
+
+
+init : Decode.Value -> ( Model, Cmd Msg )
+init csv =
+    ( decodeModel csv, Cmd.none )
 
 
 type Msg
@@ -62,5 +86,12 @@ subscriptions model =
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ text "New Element" ]
+    case model.data of
+        Just data ->
+            div []
+            [ text "Data loaded" ]
+        Nothing ->
+            div []
+            [ text "Data failed to load" ]
+
+

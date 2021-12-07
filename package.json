@@ -16,6 +16,7 @@
     "elm": "^0.19.1-5",
     "elm-tooling": "^1.7.0",
     "esbuild-dev-server": "^0.3.0",
+    "esbuild-plugin-dsv": "^0.0.2",
     "esbuild-plugin-elm": "^0.0.7"
   }
 }
