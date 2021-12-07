@@ -39,7 +39,17 @@ datapointDecoder =
     |> Pipeline.required "Type" Decode.string
     |> Pipeline.required "Company" Decode.string
     |> Pipeline.required "Role" Decode.string
-    |> Pipeline.required "Monthly/Annual Salary (Specify if not SGD)" Decode.float
+    |> Pipeline.required "Monthly/Annual Salary (Specify if not SGD)" stringThenFloat
+
+stringThenFloat : Decode.Decoder Float
+stringThenFloat =
+    Decode.string
+    |> Decode.andThen (\str ->
+        case String.toFloat str of
+            Just f -> Decode.succeed f
+            Nothing -> Decode.fail <| "Expected a float in a string but got '" ++ str ++ "'"
+        )
+
 
 
 decodeModel : Decode.Value -> Model
