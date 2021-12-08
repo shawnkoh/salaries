@@ -173,9 +173,9 @@ chartData : List Datapoint -> List ChartDatum
 chartData data =
     data
     |> companySalaries
-    |> Dict.toList
-    |> List.indexedMap f1
-    |> List.concat
+    >> Dict.toList
+    >> List.indexedMap f1
+    >> List.concat
 
 f1 : Int -> (String, List Float) -> List ChartDatum
 f1 index (company, salaries) =
