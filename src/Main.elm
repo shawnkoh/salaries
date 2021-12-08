@@ -5,6 +5,10 @@ import Html exposing (..)
 import Json.Decode as Decode
 import Json.Decode.Pipeline as Pipeline
 import Json.Print
+import Chart as C
+import Chart.Attributes as CA
+import Set exposing (Set)
+import Dict exposing (Dict)
 
 
 main : Program Decode.Value Model Msg
@@ -104,5 +108,59 @@ view model =
         Nothing ->
             div []
             [ text "Data failed to load" ]
+
+-- x axis: company
+-- y axis: salary
+--scatter : List Datapoint -> Html.Html Msg
+--scatter data =
+--    let
+--        companies : List (Int, (String, List Float))
+--        companies = data
+--            |> companySalaries
+--            >> Dict.toList
+--            >> List.indexedMap Tuple.pair
+
+--    in
+--    C.chart
+--      [ CA.height 300
+--      , CA.width 300
+--      ]
+--      [ C.xLabels [ CA.withGrid ]
+--      , C.yLabels [ CA.withGrid ]
+----      -- series .company determines x value
+--      , C.series .first
+--          [ C.scatter .second []
+--          ]
+--          companies
+--      ]
+
+type alias CompanySalaries =
+    Dict String (List Float)
+
+companySalaries : List Datapoint -> CompanySalaries
+companySalaries data =
+    List.foldl
+        (\datum acc ->
+            let
+                alter : Maybe (List Float) -> Maybe (List Float)
+                alter maybeCurrent =
+                    case maybeCurrent of
+                        Just current ->
+                            Just (datum.monthlySalary :: current)
+                        Nothing ->
+                            Just [datum.monthlySalary]
+            in
+            Dict.update 
+                datum.company
+                alter
+                acc
+        )
+        Dict.empty
+        data
+
+-- MVP: Scatter chart
+-- x-axis: company name
+-- y-axis: monthlySalary
+
 
 
