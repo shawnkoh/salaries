@@ -155,17 +155,13 @@ companySalaries data =
                 alter : Maybe (List Float) -> Maybe (List Float)
                 alter maybeCurrent =
                     case maybeCurrent of
-                        Just current ->
-                            Just (datum.monthlySalary :: current)
-                        Nothing ->
-                            Just [datum.monthlySalary]
+                        Just current -> Just (datum.monthlySalary :: current)
+                        Nothing -> Just [datum.monthlySalary]
             in
             Dict.update
                 (case Dict.get (datum.company |> String.toLower) companyNames of
-                    Just name ->
-                        name
-                    Nothing ->
-                        datum.company
+                    Just name -> name
+                    Nothing -> datum.company
                 )
                 alter
                 acc
