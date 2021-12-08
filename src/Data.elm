@@ -1,0 +1,86 @@
+module Data exposing (Datapoint, datapointDecoder, companySalaries)
+
+import Dict exposing (Dict)
+import Json.Decode as Decode
+import Json.Decode.Pipeline as Pipeline
+
+type Status
+    = FreshGrad
+    | Internship
+
+type alias Datapoint =
+    { status : Status
+    , company : String
+    , role : String
+    , monthlySalary : Float
+    }
+
+datapointDecoder : Decode.Decoder Datapoint
+datapointDecoder =
+    Decode.succeed Datapoint
+    |> Pipeline.required "Type" statusDecoder
+    |> Pipeline.required "Company" companyDecoder
+    |> Pipeline.required "Role" Decode.string
+    |> Pipeline.required "Monthly/Annual Salary (Specify if not SGD)" stringThenFloat
+
+companyDecoder : Decode.Decoder String
+companyDecoder =
+    Decode.string
+    |> Decode.andThen (\x -> x |> formatCompanyName >> Decode.succeed)
+
+statusDecoder : Decode.Decoder Status
+statusDecoder =
+    Decode.string
+    |> Decode.andThen (\str ->
+        case str of
+           "Fresh Grad" -> Decode.succeed FreshGrad
+           "Internship" -> Decode.succeed Internship
+           _ -> Decode.fail <| "Expected Fresh Grad or Internship but got '" ++ str ++ "'"
+    )
+
+stringThenFloat : Decode.Decoder Float
+stringThenFloat =
+    Decode.string
+    |> Decode.andThen (\str ->
+        case String.toFloat str of
+            Just f -> Decode.succeed f
+            Nothing -> Decode.fail <| "Expected a float in a string but got '" ++ str ++ "'"
+        )
+
+companyNames : Dict String String
+companyNames =
+    Dict.fromList
+        [ ("tiktok", "TikTok")
+        , ("alphalab capital", "AlphaLab Capital")
+        , ("bank of america", "Bank of America")
+        , ("govtech", "GovTech")
+        ]
+
+formatCompanyName : String -> String
+formatCompanyName company =
+    Maybe.withDefault company (Dict.get company companyNames)
+
+type alias CompanySalaries =
+    Dict String (List Float)
+
+companySalaries : List Datapoint -> CompanySalaries
+companySalaries data =
+    List.foldl
+        (\datum acc ->
+            let
+                alter : Maybe (List Float) -> Maybe (List Float)
+                alter maybeCurrent =
+                    case maybeCurrent of
+                        Just current -> Just (datum.monthlySalary :: current)
+                        Nothing -> Just [datum.monthlySalary]
+            in
+            Dict.update
+                (case Dict.get (datum.company |> String.toLower) companyNames of
+                    Just name -> name
+                    Nothing -> datum.company
+                )
+                alter
+                acc
+        )
+        Dict.empty
+        data
