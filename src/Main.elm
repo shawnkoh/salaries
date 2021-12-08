@@ -37,6 +37,14 @@ type Status
     = FreshGrad
     | Internship
 
+companyNames =
+    Dict.fromList
+        [ ("tiktok", "TikTok")
+        , ("alphalab capital", "AlphaLab Capital")
+        , ("bank of america", "Bank of America")
+        , ("govtech", "GovTech")
+        ]
+
 datapointDecoder : Decode.Decoder Datapoint
 datapointDecoder =
     Decode.succeed Datapoint
@@ -53,7 +61,6 @@ stringThenFloat =
             Just f -> Decode.succeed f
             Nothing -> Decode.fail <| "Expected a float in a string but got '" ++ str ++ "'"
         )
-
 
 
 decodeModel : Decode.Value -> Model
@@ -153,8 +160,13 @@ companySalaries data =
                         Nothing ->
                             Just [datum.monthlySalary]
             in
-            Dict.update 
-                datum.company
+            Dict.update
+                (case Dict.get (datum.company |> String.toLower) companyNames of
+                    Just name ->
+                        name
+                    Nothing ->
+                        datum.company
+                )
                 alter
                 acc
         )
@@ -166,16 +178,12 @@ chartData data =
     data
     |> companySalaries
     |> Dict.toList
-    |> List.indexedMap
-        (\index datum -> 
-            f1 index datum
-        )
+    |> List.indexedMap f1
     |> List.concat
 
 f1 : Int -> (String, List Float) -> List ChartDatum
 f1 index (company, salaries) =
     let
-        _ = Debug.log "index: " index
         _ = Debug.log "company: " company
     in
     
