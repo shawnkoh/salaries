@@ -26,12 +26,11 @@ type alias Model =
 
 
 type alias Datapoint =
-    { status : String
+    { status : Status
     , company : String
     , role : String
     , monthlySalary : Float
     }
-
 
 type Status
     = FreshGrad
@@ -48,10 +47,20 @@ companyNames =
 datapointDecoder : Decode.Decoder Datapoint
 datapointDecoder =
     Decode.succeed Datapoint
-    |> Pipeline.required "Type" Decode.string
+    |> Pipeline.required "Type" statusDecoder
     |> Pipeline.required "Company" Decode.string
     |> Pipeline.required "Role" Decode.string
     |> Pipeline.required "Monthly/Annual Salary (Specify if not SGD)" stringThenFloat
+
+statusDecoder : Decode.Decoder Status
+statusDecoder =
+    Decode.string
+    |> Decode.andThen (\str ->
+        case str of
+           "Fresh Grad" -> Decode.succeed FreshGrad
+           "Internship" -> Decode.succeed Internship
+           _ -> Decode.fail <| "Expected Fresh Grad or Internship but got '" ++ str ++ "'"
+    )
 
 stringThenFloat : Decode.Decoder Float
 stringThenFloat =
