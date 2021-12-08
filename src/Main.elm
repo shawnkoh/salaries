@@ -103,39 +103,54 @@ view : Model -> Html Msg
 view model =
     case model.data of
         Just data ->
-            div []
-            [ text "Data loaded" ]
+            data |> scatter
         Nothing ->
             div []
             [ text "Data failed to load" ]
 
 -- x axis: company
 -- y axis: salary
---scatter : List Datapoint -> Html.Html Msg
---scatter data =
---    let
---        companies : List (Int, (String, List Float))
---        companies = data
---            |> companySalaries
---            >> Dict.toList
---            >> List.indexedMap Tuple.pair
+scatter : List Datapoint -> Html Msg
+scatter data =
+    C.chart
+      [ CA.height 300
+      , CA.width 300
+      ]
+      [ C.xLabels [ CA.withGrid ]
+      , C.yLabels [ CA.withGrid ]
+      , C.series .index
+          [ C.scatter .monthlySalary []
+          ]
+          (data |> chartData)
+      ]
 
---    in
---    C.chart
---      [ CA.height 300
---      , CA.width 300
---      ]
---      [ C.xLabels [ CA.withGrid ]
---      , C.yLabels [ CA.withGrid ]
-----      -- series .company determines x value
---      , C.series .first
---          [ C.scatter .second []
---          ]
---          companies
---      ]
+--series : (data -> Float) -> List (Property data CS.Interpolation CS.Dot) -> List data -> Element data msg
+--series toX properties data =
+
+-- the objective of scatter is provide a lens into how to manipulate the data type.
+--scatter : (data -> Float) -> List (Attribute CS.Dot) -> Property data inter CS.Dot
+--scatter y =
+
+type alias ChartData = List ChartDatum
+type alias ChartDatum =
+    { index: Float -- maybe this needs to be a float?
+    , company: String
+    , monthlySalary: Float
+    }
 
 type alias CompanySalaries =
     Dict String (List Float)
+
+chartData : List Datapoint -> ChartData
+chartData data =
+    List.indexedMap
+    (\index datum -> 
+        { index=index |> toFloat
+        , company=datum.company
+        , monthlySalary=datum.monthlySalary
+        }
+    )
+    data
 
 companySalaries : List Datapoint -> CompanySalaries
 companySalaries data =
@@ -157,10 +172,3 @@ companySalaries data =
         )
         Dict.empty
         data
-
--- MVP: Scatter chart
--- x-axis: company name
--- y-axis: monthlySalary
-
-
-
