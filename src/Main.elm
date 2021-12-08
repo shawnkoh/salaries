@@ -131,7 +131,6 @@ scatter data =
 --scatter : (data -> Float) -> List (Attribute CS.Dot) -> Property data inter CS.Dot
 --scatter y =
 
-type alias ChartData = List ChartDatum
 type alias ChartDatum =
     { index: Float -- maybe this needs to be a float?
     , company: String
@@ -140,17 +139,6 @@ type alias ChartDatum =
 
 type alias CompanySalaries =
     Dict String (List Float)
-
-chartData : List Datapoint -> ChartData
-chartData data =
-    List.indexedMap
-    (\index datum -> 
-        { index=index |> toFloat
-        , company=datum.company
-        , monthlySalary=datum.monthlySalary
-        }
-    )
-    data
 
 companySalaries : List Datapoint -> CompanySalaries
 companySalaries data =
@@ -172,3 +160,30 @@ companySalaries data =
         )
         Dict.empty
         data
+
+chartData : List Datapoint -> List ChartDatum
+chartData data =
+    data
+    |> companySalaries
+    |> Dict.toList
+    |> List.indexedMap
+        (\index datum -> 
+            f1 index datum
+        )
+    |> List.concat
+
+f1 : Int -> (String, List Float) -> List ChartDatum
+f1 index (company, salaries) =
+    let
+        _ = Debug.log "index: " index
+        _ = Debug.log "company: " company
+    in
+    
+    List.map
+        (\salary -> 
+            {index=index |> toFloat
+            , company=company
+            , monthlySalary=salary
+            }
+        )
+        salaries
