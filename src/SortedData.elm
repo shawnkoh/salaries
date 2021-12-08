@@ -19,10 +19,10 @@ get : Int -> SortedData -> Datapoint
 get index (Sorted hd datapoints) =
     case index of
         0 -> hd
+        1 -> Maybe.withDefault hd List.head
         _ -> 
-            -- TODO: unsure about this
             datapoints
-            |> List.drop(index)
+            |> List.drop(index - 1)
             >> List.head
             >> Maybe.withDefault hd
 
