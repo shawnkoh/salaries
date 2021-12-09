@@ -1,6 +1,6 @@
 module PercentileGraph exposing (view, Model, Msg, init, update)
 
-import Data exposing (Datapoint)
+import Data exposing (Data, Datapoint, Status(..))
 import Percentile exposing (Percentile)
 import SortedData exposing (SortedData)
 import Data
@@ -26,8 +26,6 @@ update msg model =
     case msg of
         OnHover hovering ->
             { model | hovering = hovering }
-
-type alias Data = SortedData Datapoint
 
 -- TODO: We should constrain Percentile and MonthlySalary
 -- Actually, wouldn't it be more expressive to give x and y as the property and let the
@@ -87,15 +85,15 @@ chart data model =
         [ C.tooltip item [] [] [] ]
       ]
 
--- This should accept SortedData instead
-view : List Datapoint -> Model -> Html Msg
+view : Data -> Model -> Html Msg
 view data model =
     let
         toData = SortedData.init (\a -> a.monthlySalary)
         chartData : Maybe (List Datum)
         chartData =
             data
-                |> List.partition (\x -> x.status == Data.Internship)
+                |> SortedData.toList
+                >> List.partition (\x -> x.status == Internship)
                 >> Tuple.mapBoth toData toData
                 >> (\(interns, freshGrads) ->
                         case (interns, freshGrads) of

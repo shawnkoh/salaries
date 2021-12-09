@@ -17,11 +17,11 @@ type alias Datapoint =
     }
 
 type alias Data =
-    List Datapoint
+    SortedData Datapoint
 
 decodeData : Decode.Value -> Maybe Data
 decodeData json =
-    case Decode.decodeValue (Decode.list datapointDecoder) json of
+    case Decode.decodeValue (sortedDataDecoder) json of
         Ok value ->
             Just value
         Err error ->
@@ -30,10 +30,15 @@ decodeData json =
             in
             Nothing
 
---sortedDataDecoder : Decode.Decoder (SortedData Datapoint)
---sortedDataDecoder =
---    Decode.list datapointDecoder
---        |> Decode.andThen SortedData.init
+sortedDataDecoder : Decode.Decoder (SortedData Datapoint)
+sortedDataDecoder =
+    Decode.list datapointDecoder
+    |> Decode.map (SortedData.init .monthlySalary)
+    >> Decode.andThen (\a ->
+        case a of
+            Just data -> Decode.succeed data
+            Nothing -> Decode.fail <| "Expected SortedData but got empty data"
+    )
 
 datapointDecoder : Decode.Decoder Datapoint
 datapointDecoder =
@@ -46,7 +51,7 @@ datapointDecoder =
 companyDecoder : Decode.Decoder String
 companyDecoder =
     Decode.string
-    |> Decode.andThen (\x -> x |> formatCompanyName >> Decode.succeed)
+    |> Decode.map formatCompanyName
 
 statusDecoder : Decode.Decoder Status
 statusDecoder =
@@ -83,9 +88,9 @@ formatCompanyName company =
 type alias CompanySalaries =
     Dict String (List Float)
 
-companySalaries : List Datapoint -> CompanySalaries
+companySalaries : Data -> CompanySalaries
 companySalaries data =
-    List.foldl
+    SortedData.foldl
         (\datum acc ->
             let
                 alter : Maybe (List Float) -> Maybe (List Float)
