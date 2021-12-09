@@ -19,32 +19,38 @@ main =
         , subscriptions = subscriptions
         }
 
+type alias Data =
+    List Datapoint
 
-type alias Model =
-    { data: Maybe (List Datapoint) }
+type Model =
+    Fail
+    | Chart ChartType
 
+type ChartType =
+    PercentileGraph Data
 
-decodeModel : Decode.Value -> Model
-decodeModel json =
+decodeData : Decode.Value -> Maybe Data
+decodeData json =
     case Decode.decodeValue (Decode.list datapointDecoder) json of
         Ok value ->
-            Model (Just value)
+            Just value
         Err error ->
             let
                 _ = Debug.log "error: " (Decode.errorToString error)
             in
-            Model Nothing
+            Nothing
 
 
 init : Decode.Value -> ( Model, Cmd Msg )
 init csv =
-    ( decodeModel csv, Cmd.none )
+    case decodeData csv of
+        Just data -> ( Chart (PercentileGraph data), Cmd.none )
+        Nothing -> ( Fail, Cmd.none )
 
 
 type Msg
     = Msg1 ScatterChart.Msg
     | Msg2 PercentileGraph.Msg
-    | Msg3
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -56,22 +62,19 @@ update msg model =
         Msg2 _ ->
             ( model, Cmd.none )
 
-        Msg3 ->
-            ( model, Cmd.none )
-
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     Sub.none
 
 view : Model -> Html Msg
 view model =
-    case model.data of
-        Just data ->
+    case model of
+        Chart (PercentileGraph data) ->
             data
             |> PercentileGraph.view
             >> Html.map Msg2
-        Nothing ->
+        Fail ->
             div []
             [ text "Data failed to load" ]
 

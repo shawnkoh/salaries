@@ -12,3 +12,9 @@ init rank =
 rawValue : Percentile -> Float
 rawValue (Percentile rank) =
     rank
+
+-- TODO: This should accept a count input instead
+range : Int -> Int -> List Percentile
+range start end =
+    List.range start end
+        |> List.filterMap (toFloat >> init)

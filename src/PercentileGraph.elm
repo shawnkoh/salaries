@@ -1,4 +1,4 @@
-module PercentileGraph exposing (view, Msg)
+module PercentileGraph exposing (view, Model, Msg, init)
 
 import Data exposing (Datapoint)
 import Percentile exposing (Percentile)
@@ -7,19 +7,25 @@ import Data
 
 import Chart as C
 import Chart.Attributes as CA
+import Chart.Item as CI
+import Chart.Events as CE
 import Html exposing (Html)
 
--- nearest-rank method
--- https://en.wikipedia.org/wiki/Percentile#Calculation_methods
-getDatapointAtPercentile : Percentile -> SortedData -> Datapoint
-getDatapointAtPercentile (Percentile.Percentile rank) data =
-    let
-        length = data |> SortedData.length >> toFloat
-        index = ceiling (rank / 100 * length) - 1
-    in
-    SortedData.get index data
+type alias Model = 
+    { hovering : List (CI.One Datum CI.Dot) }
 
-type alias Model = List Datum
+init : Model
+init =
+    { hovering = [] }
+
+type Msg =
+    OnHover (List (CI.One Datum CI.Dot))
+
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        OnHover hovering ->
+            { model | hovering = hovering }
 
 -- TODO: We should constrain Percentile and MonthlySalary
 -- Actually, wouldn't it be more expressive to give x and y as the property and let the
@@ -30,13 +36,15 @@ type alias Datum =
     , freshGradMonthlySalary: Float
     }
 
-type Msg = Msg
-
--- TODO: This should accept a count input instead
-percentiles : List Percentile
-percentiles =
-    List.range 0 100
-        |> List.filterMap (toFloat >> Percentile.init)
+-- nearest-rank method
+-- https://en.wikipedia.org/wiki/Percentile#Calculation_methods
+getDatapointAtPercentile : Percentile -> SortedData -> Datapoint
+getDatapointAtPercentile (Percentile.Percentile rank) data =
+    let
+        length = data |> SortedData.length >> toFloat
+        index = ceiling (rank / 100 * length) - 1
+    in
+    SortedData.get index data
 
 toDatum : Percentile -> (SortedData, SortedData) -> Datum
 toDatum percentile (interns, freshGrads) =
@@ -55,34 +63,34 @@ toModel sortedDatas =
     List.foldl
         (\percentile acc -> (toDatum percentile sortedDatas) :: acc)
         []
-        percentiles
+        (Percentile.range 0 100)
 
 -- TODO: x axis label of lowest to highest pay
-chart : Maybe (List Datum) -> Html Msg
+chart : List Datum -> Html Msg
 chart data =
-    case data of
-        Just chartModel ->
-            C.chart
-              [ CA.height 200
-              , CA.width 200
-              ]
-              [ C.xLabels []
-              , C.yLabels [ CA.withGrid ]
-              , C.series .percentile
-                  [ C.interpolated .internMonthlySalary [ CA.monotone ] []
-                  , C.interpolated .freshGradMonthlySalary [ CA.monotone ] []
-                  ]
-                  chartModel
-              ]
-        Nothing ->
-            Html.div []
-            [ Html.text "Data failed to load" ]
+    let model = (init) in
+    C.chart
+      [ CA.height 200
+      , CA.width 200
+      , CE.onMouseMove OnHover (CE.getNearest CI.dots)
+      , CE.onMouseLeave (OnHover [])
+      ]
+      [ C.xLabels []
+      , C.yLabels [ CA.withGrid ]
+      , C.series .percentile
+          [ C.interpolated .internMonthlySalary [ CA.monotone ] []
+          , C.interpolated .freshGradMonthlySalary [ CA.monotone ] []
+          ]
+          data
+      , C.each model.hovering <| \p item ->
+        [ C.tooltip item [] [] [] ]
+      ]
 
 view : List Datapoint -> Html Msg
 view data =
     let
-        model : Maybe (List Datum)
-        model =
+        chartData : Maybe (List Datum)
+        chartData =
             data
                 |> List.partition (\x -> x.status == Data.Internship)
                 >> Tuple.mapBoth SortedData.init SortedData.init
@@ -92,4 +100,9 @@ view data =
                             _ -> Nothing
                     )
     in
-    chart model
+    case chartData of
+        Just chartModel ->
+            chart chartModel
+        Nothing ->
+            Html.div []
+            [ Html.text "Data failed to load" ]
