@@ -6,7 +6,7 @@ type SortedData = Sorted Datapoint (List Datapoint)
 
 init : List Datapoint -> Maybe SortedData
 init list =
-    case list of
+    case (list |> List.sortBy .monthlySalary) of
         [] -> Nothing
         a::b -> Just (Sorted a b)
 

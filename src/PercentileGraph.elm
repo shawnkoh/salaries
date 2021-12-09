@@ -1,4 +1,4 @@
-module PercentileGraph exposing (..)
+module PercentileGraph exposing (view, Msg)
 
 import Data exposing (Datapoint)
 import Percentile exposing (Percentile)
@@ -10,7 +10,10 @@ import Html exposing (Html)
 
 getDatapointAtPercentile : Percentile -> SortedData -> Datapoint
 getDatapointAtPercentile (Percentile.Percentile rank) data =
-    let index = round rank * (data |> SortedData.length) in
+    let
+        length = data |> SortedData.length >> toFloat
+        index = round (rank / 100 * length)
+    in
     SortedData.get index data
 
 type alias Model = List Datum
