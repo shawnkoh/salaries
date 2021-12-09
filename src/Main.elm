@@ -11,15 +11,18 @@ import Json.Decode as Decode
 
 
 type Model
-    = PercentileGraph Data
+    = PercentileGraph Data PercentileGraph.Model
+    | ScatterChart Data ScatterChart.Model
     | Fail
 
 
 init : Decode.Value -> ( Model, Cmd Msg )
 init csv =
     case Data.decodeData csv of
-        Just data -> ( PercentileGraph data, Cmd.none )
-        Nothing -> ( Fail, Cmd.none )
+        Just data ->
+            ( PercentileGraph data PercentileGraph.init, Cmd.none )
+        Nothing ->
+            ( Fail, Cmd.none )
 
 
 type Msg
@@ -29,21 +32,31 @@ type Msg
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case msg of
-        GotScatterChartMsg _ ->
+    case ( msg, model ) of
+        ( GotScatterChartMsg subMsg, ScatterChart data scatterChart ) ->
             ( model, Cmd.none )
 
-        GotPercentileGraphMsg chartMsg ->
+        ( GotPercentileGraphMsg subMsg, PercentileGraph data percentileGraph ) ->
+            ( model, Cmd.none )
+
+        ( _, _ ) ->
+            -- Disregard messages that arrived for the wrong page.
             ( model, Cmd.none )
 
 
 view : Model -> Html Msg
 view model =
     case model of
-        PercentileGraph data ->
+        PercentileGraph data percentileGraph ->
             data
-            |> PercentileGraph.view
-            >> Html.map GotPercentileGraphMsg
+                |> PercentileGraph.view
+                >> Html.map GotPercentileGraphMsg
+
+        ScatterChart data scatterChart ->
+            data
+                |> ScatterChart.view
+                >> Html.map GotScatterChartMsg
+
         Fail ->
             div []
             [ text "Data failed to load" ]
