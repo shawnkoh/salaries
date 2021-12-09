@@ -1,12 +1,8 @@
 module SortedData exposing (..)
 
---import Data exposing (a)
-
 -- TODO: This can be optimised by leveraging a different data structure
 -- like a record type.
 type SortedData a = Sorted a (List a)
-
--- length is 262
 
 init : (a -> comparable) -> List a -> Maybe (SortedData a)
 init comparison list =
@@ -40,10 +36,6 @@ toList : SortedData a -> List a
 toList (Sorted hd list) =
     hd :: list
 
--- foldl : (a -> b -> b) -> b -> List a -> b
--- TODO: quick hack using List.foldl
 foldl : (a -> b -> b) -> b -> SortedData a -> b
-foldl accumulator initialResult data =
-    data
-        |> toList 
-        >> List.foldl accumulator initialResult
+foldl accumulator initialResult (Sorted hd list) =
+    List.foldl accumulator (accumulator hd initialResult) list
