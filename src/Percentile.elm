@@ -2,9 +2,13 @@ module Percentile exposing (..)
 
 type Percentile = Percentile Float
 
---init : Float -> Sorted -> Maybe Percentile
---init rank =
---	case float of
-		
+init : Float -> Maybe Percentile
+init rank =
+    if rank >= 0 && rank <= 100 then
+        Just (Percentile rank)
+    else
+        Nothing
 
--- P(x) = n / N x 100
+rawValue : Percentile -> Float
+rawValue (Percentile rank) =
+    rank

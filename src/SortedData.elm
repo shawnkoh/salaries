@@ -19,7 +19,7 @@ get : Int -> SortedData -> Datapoint
 get index (Sorted hd datapoints) =
     case index of
         0 -> hd
-        1 -> Maybe.withDefault hd List.head
+        1 -> Maybe.withDefault hd (List.head datapoints)
         _ -> 
             datapoints
             |> List.drop(index - 1)
@@ -34,3 +34,11 @@ length (Sorted _ datapoints) =
 toList : SortedData -> List Datapoint
 toList (Sorted hd datapoints) =
     hd :: datapoints
+
+-- foldl : (a -> b -> b) -> b -> List a -> b
+foldl : (Datapoint -> b -> b) -> b -> SortedData -> b
+foldl accumulator initialResult data =
+    -- TODO: quick hack using List.foldl
+    data
+        |> toList 
+        >> List.foldl accumulator initialResult

@@ -5,6 +5,7 @@ import Html exposing (..)
 
 import Data exposing (Datapoint, datapointDecoder)
 import ScatterChart
+import PercentileGraph
 
 import Json.Decode as Decode
 
@@ -42,7 +43,8 @@ init csv =
 
 type Msg
     = Msg1 ScatterChart.Msg
-    | Msg2
+    | Msg2 PercentileGraph.Msg
+    | Msg3
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -51,7 +53,10 @@ update msg model =
         Msg1 _ ->
             ( model, Cmd.none )
 
-        Msg2 ->
+        Msg2 _ ->
+            ( model, Cmd.none )
+
+        Msg3 ->
             ( model, Cmd.none )
 
 
@@ -64,8 +69,8 @@ view model =
     case model.data of
         Just data ->
             data
-            |> ScatterChart.view
-            >> Html.map Msg1 
+            |> PercentileGraph.view
+            >> Html.map Msg2
         Nothing ->
             div []
             [ text "Data failed to load" ]
