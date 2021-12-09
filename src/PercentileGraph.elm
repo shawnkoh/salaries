@@ -26,8 +26,8 @@ type alias Model = List Datum
 -- type define it's purpose instead?
 type alias Datum =
     { percentile: Float
-    , internMonthlySalary: Maybe Float
-    , freshGradMonthlySalary: Maybe Float
+    , internMonthlySalary: Float
+    , freshGradMonthlySalary: Float
     }
 
 type Msg = Msg
@@ -40,9 +40,14 @@ percentiles =
 
 toDatum : Percentile -> (SortedData, SortedData) -> Datum
 toDatum percentile (interns, freshGrads) =
+    let
+        _ = Debug.log "percentile" percentile
+        _ = Debug.log "intern" (getDatapointAtPercentile percentile interns).monthlySalary
+        _ = Debug.log "freshGrad" (getDatapointAtPercentile percentile freshGrads).monthlySalary
+    in
     { percentile = percentile |> Percentile.rawValue
-    , internMonthlySalary = Just (getDatapointAtPercentile percentile interns).monthlySalary
-    , freshGradMonthlySalary = Just (getDatapointAtPercentile percentile freshGrads).monthlySalary
+    , internMonthlySalary = (getDatapointAtPercentile percentile interns).monthlySalary
+    , freshGradMonthlySalary = (getDatapointAtPercentile percentile freshGrads).monthlySalary
     }
 
 toModel : (SortedData, SortedData) -> List Datum
@@ -64,8 +69,8 @@ chart data =
               [ C.xLabels []
               , C.yLabels [ CA.withGrid ]
               , C.series .percentile
-                  [ C.interpolatedMaybe .internMonthlySalary [ CA.monotone ] []
-                  , C.interpolatedMaybe .freshGradMonthlySalary [ CA.monotone ] []
+                  [ C.interpolated .internMonthlySalary [ CA.monotone ] []
+                  , C.interpolated .freshGradMonthlySalary [ CA.monotone ] []
                   ]
                   chartModel
               ]
