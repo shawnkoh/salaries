@@ -48,9 +48,8 @@ view : Model -> Html Msg
 view model =
     case model of
         PercentileGraph data percentileGraph ->
-            data
-                |> PercentileGraph.view
-                >> Html.map GotPercentileGraphMsg
+            PercentileGraph.view data percentileGraph 
+                |> Html.map GotPercentileGraphMsg
 
         ScatterChart data scatterChart ->
             data

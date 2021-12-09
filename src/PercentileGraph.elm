@@ -31,9 +31,9 @@ update msg model =
 -- Actually, wouldn't it be more expressive to give x and y as the property and let the
 -- type define it's purpose instead?
 type alias Datum =
-    { percentile: Float
-    , internMonthlySalary: Float
-    , freshGradMonthlySalary: Float
+    { percentile: Percentile
+    , intern: Datapoint
+    , freshGrad: Datapoint
     }
 
 -- nearest-rank method
@@ -50,12 +50,12 @@ toDatum : Percentile -> (SortedData, SortedData) -> Datum
 toDatum percentile (interns, freshGrads) =
     let
         _ = Debug.log "percentile" percentile
-        _ = Debug.log "intern" (getDatapointAtPercentile percentile interns).monthlySalary
-        _ = Debug.log "freshGrad" (getDatapointAtPercentile percentile freshGrads).monthlySalary
+        _ = Debug.log "intern" getDatapointAtPercentile percentile interns
+        _ = Debug.log "freshGrad" getDatapointAtPercentile percentile freshGrads
     in
-    { percentile = percentile |> Percentile.rawValue
-    , internMonthlySalary = (getDatapointAtPercentile percentile interns).monthlySalary
-    , freshGradMonthlySalary = (getDatapointAtPercentile percentile freshGrads).monthlySalary
+    { percentile = percentile
+    , intern = getDatapointAtPercentile percentile interns
+    , freshGrad = getDatapointAtPercentile percentile freshGrads
     }
 
 toModel : (SortedData, SortedData) -> List Datum
@@ -66,9 +66,8 @@ toModel sortedDatas =
         (Percentile.range 0 100)
 
 -- TODO: x axis label of lowest to highest pay
-chart : List Datum -> Html Msg
-chart data =
-    let model = (init) in
+chart : List Datum -> Model -> Html Msg
+chart data model =
     C.chart
       [ CA.height 200
       , CA.width 200
@@ -77,17 +76,18 @@ chart data =
       ]
       [ C.xLabels []
       , C.yLabels [ CA.withGrid ]
-      , C.series .percentile
-          [ C.interpolated .internMonthlySalary [ CA.monotone ] []
-          , C.interpolated .freshGradMonthlySalary [ CA.monotone ] []
+      , C.series (.percentile >> Percentile.rawValue)
+          [ C.interpolated (.intern >> .monthlySalary) [ CA.monotone ] []
+          , C.interpolated (.freshGrad >> .monthlySalary) [ CA.monotone ] []
           ]
           data
       , C.each model.hovering <| \p item ->
         [ C.tooltip item [] [] [] ]
       ]
 
-view : List Datapoint -> Html Msg
-view data =
+-- This should accept SortedData instead
+view : List Datapoint -> Model -> Html Msg
+view data model =
     let
         chartData : Maybe (List Datum)
         chartData =
@@ -102,7 +102,7 @@ view data =
     in
     case chartData of
         Just chartModel ->
-            chart chartModel
+            chart chartModel model
         Nothing ->
             Html.div []
             [ Html.text "Data failed to load" ]
