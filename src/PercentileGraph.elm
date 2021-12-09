@@ -27,6 +27,8 @@ update msg model =
         OnHover hovering ->
             { model | hovering = hovering }
 
+type alias Data = SortedData Datapoint
+
 -- TODO: We should constrain Percentile and MonthlySalary
 -- Actually, wouldn't it be more expressive to give x and y as the property and let the
 -- type define it's purpose instead?
@@ -38,7 +40,7 @@ type alias Datum =
 
 -- nearest-rank method
 -- https://en.wikipedia.org/wiki/Percentile#Calculation_methods
-getDatapointAtPercentile : Percentile -> SortedData -> Datapoint
+getDatapointAtPercentile : Percentile -> Data -> Datapoint
 getDatapointAtPercentile (Percentile.Percentile rank) data =
     let
         length = data |> SortedData.length >> toFloat
@@ -46,7 +48,7 @@ getDatapointAtPercentile (Percentile.Percentile rank) data =
     in
     SortedData.get index data
 
-toDatum : Percentile -> (SortedData, SortedData) -> Datum
+toDatum : Percentile -> (SortedData Datapoint, SortedData Datapoint) -> Datum
 toDatum percentile (interns, freshGrads) =
     let
         _ = Debug.log "percentile" percentile
@@ -58,7 +60,7 @@ toDatum percentile (interns, freshGrads) =
     , freshGrad = getDatapointAtPercentile percentile freshGrads
     }
 
-toModel : (SortedData, SortedData) -> List Datum
+toModel : (Data, Data) -> List Datum
 toModel sortedDatas =
     List.foldl
         (\percentile acc -> (toDatum percentile sortedDatas) :: acc)
@@ -89,11 +91,12 @@ chart data model =
 view : List Datapoint -> Model -> Html Msg
 view data model =
     let
+        toData = SortedData.init (\a -> a.monthlySalary)
         chartData : Maybe (List Datum)
         chartData =
             data
                 |> List.partition (\x -> x.status == Data.Internship)
-                >> Tuple.mapBoth SortedData.init SortedData.init
+                >> Tuple.mapBoth toData toData
                 >> (\(interns, freshGrads) ->
                         case (interns, freshGrads) of
                             (Just i, Just f) -> Just (toModel (i, f))

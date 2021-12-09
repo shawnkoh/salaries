@@ -3,6 +3,7 @@ module Data exposing (Data, Datapoint, decodeData, companySalaries, Status(..))
 import Dict exposing (Dict)
 import Json.Decode as Decode
 import Json.Decode.Pipeline as Pipeline
+import SortedData exposing (SortedData)
 
 type Status
     = FreshGrad
@@ -28,6 +29,11 @@ decodeData json =
                 _ = Debug.log "error: " (Decode.errorToString error)
             in
             Nothing
+
+--sortedDataDecoder : Decode.Decoder (SortedData Datapoint)
+--sortedDataDecoder =
+--    Decode.list datapointDecoder
+--        |> Decode.andThen SortedData.init
 
 datapointDecoder : Decode.Decoder Datapoint
 datapointDecoder =
