@@ -3,6 +3,7 @@ module PercentileGraph exposing (view, Msg)
 import Data exposing (Datapoint)
 import Percentile exposing (Percentile)
 import SortedData exposing (SortedData)
+import Data
 
 import Chart as C
 import Chart.Attributes as CA
@@ -25,7 +26,8 @@ type alias Model = List Datum
 -- type define it's purpose instead?
 type alias Datum =
     { percentile: Float
-    , monthlySalary: Float
+    , internMonthlySalary: Maybe Float
+    , freshGradMonthlySalary: Maybe Float
     }
 
 type Msg = Msg
@@ -36,16 +38,17 @@ percentiles =
     List.range 0 100
         |> List.filterMap (toFloat >> Percentile.init)
 
-toDatum : Percentile -> SortedData -> Datum
-toDatum percentile sortedData =
+toDatum : Percentile -> (SortedData, SortedData) -> Datum
+toDatum percentile (interns, freshGrads) =
     { percentile = percentile |> Percentile.rawValue
-    , monthlySalary = (getDatapointAtPercentile percentile sortedData).monthlySalary
+    , internMonthlySalary = Just (getDatapointAtPercentile percentile interns).monthlySalary
+    , freshGradMonthlySalary = Just (getDatapointAtPercentile percentile freshGrads).monthlySalary
     }
 
-toModel : SortedData -> List Datum
-toModel sortedData =
+toModel : (SortedData, SortedData) -> List Datum
+toModel sortedDatas =
     List.foldl
-        (\percentile acc -> (toDatum percentile sortedData) :: acc)
+        (\percentile acc -> (toDatum percentile sortedDatas) :: acc)
         []
         percentiles
 
@@ -58,10 +61,12 @@ chart data =
               [ CA.height 200
               , CA.width 200
               ]
-              [ C.xLabels [ CA.format (\x -> String.fromFloat x) ]
+              [ C.xLabels []
               , C.yLabels [ CA.withGrid ]
               , C.series .percentile
-                  [ C.interpolated .monthlySalary [ CA.monotone ] [] ]
+                  [ C.interpolatedMaybe .internMonthlySalary [ CA.monotone ] []
+                  , C.interpolatedMaybe .freshGradMonthlySalary [ CA.monotone ] []
+                  ]
                   chartModel
               ]
         Nothing ->
@@ -74,7 +79,12 @@ view data =
         model : Maybe (List Datum)
         model =
             data
-                |> SortedData.init
-                >> Maybe.map toModel
+                |> List.partition (\x -> x.status == Data.Internship)
+                >> Tuple.mapBoth SortedData.init SortedData.init
+                >> (\(interns, freshGrads) ->
+                        case (interns, freshGrads) of
+                            (Just i, Just f) -> Just (toModel (i, f))
+                            _ -> Nothing
+                    )
     in
     chart model

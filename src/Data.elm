@@ -1,4 +1,4 @@
-module Data exposing (Datapoint, datapointDecoder, companySalaries)
+module Data exposing (Datapoint, datapointDecoder, companySalaries, Status(..))
 
 import Dict exposing (Dict)
 import Json.Decode as Decode
