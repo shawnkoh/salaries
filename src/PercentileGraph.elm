@@ -88,12 +88,11 @@ chart data model =
 view : Data -> Model -> Html Msg
 view data model =
     let
-        toData = SortedData.init (\a -> a.monthlySalary)
+        toData = SortedData.init .monthlySalary
         chartData : Maybe (List Datum)
         chartData =
             data
-                |> SortedData.toList
-                >> List.partition (\x -> x.status == Internship)
+                |> SortedData.partition (\x -> x.status == Internship)
                 >> Tuple.mapBoth toData toData
                 >> (\(interns, freshGrads) ->
                         case (interns, freshGrads) of

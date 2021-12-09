@@ -39,3 +39,9 @@ toList (Sorted hd list) =
 foldl : (a -> b -> b) -> b -> SortedData a -> b
 foldl accumulator initialResult (Sorted hd list) =
     List.foldl accumulator (accumulator hd initialResult) list
+
+partition : (a -> Bool) -> SortedData a -> ( List a, List a )
+partition predicate data =
+    data
+    |> toList
+    >> List.partition predicate
