@@ -8,11 +8,13 @@ import Chart as C
 import Chart.Attributes as CA
 import Html exposing (Html)
 
+-- nearest-rank method
+-- https://en.wikipedia.org/wiki/Percentile#Calculation_methods
 getDatapointAtPercentile : Percentile -> SortedData -> Datapoint
 getDatapointAtPercentile (Percentile.Percentile rank) data =
     let
         length = data |> SortedData.length >> toFloat
-        index = round (rank / 100 * length)
+        index = ceiling (rank / 100 * length) - 1
     in
     SortedData.get index data
 
@@ -47,6 +49,7 @@ toModel sortedData =
         []
         percentiles
 
+-- TODO: x axis label of lowest to highest pay
 chart : Maybe (List Datum) -> Html Msg
 chart data =
     case data of
@@ -58,7 +61,7 @@ chart data =
               [ C.xLabels [ CA.format (\x -> String.fromFloat x) ]
               , C.yLabels [ CA.withGrid ]
               , C.series .percentile
-                  [ C.scatter .monthlySalary [] ]
+                  [ C.interpolated .monthlySalary [ CA.monotone ] [] ]
                   chartModel
               ]
         Nothing ->

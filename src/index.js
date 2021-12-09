@@ -3,7 +3,6 @@ import data from "./data.csv"
 
 const $root = document.querySelector("#root")
 console.log(data)
-console.log(typeof data)
 
 Elm.Main.init({
   node: $root,
