@@ -1,4 +1,4 @@
-module Data exposing (Datapoint, datapointDecoder, companySalaries, Status(..))
+module Data exposing (Data, Datapoint, decodeData, companySalaries, Status(..))
 
 import Dict exposing (Dict)
 import Json.Decode as Decode
@@ -14,6 +14,20 @@ type alias Datapoint =
     , role : String
     , monthlySalary : Float
     }
+
+type alias Data =
+    List Datapoint
+
+decodeData : Decode.Value -> Maybe Data
+decodeData json =
+    case Decode.decodeValue (Decode.list datapointDecoder) json of
+        Ok value ->
+            Just value
+        Err error ->
+            let
+                _ = Debug.log "error: " (Decode.errorToString error)
+            in
+            Nothing
 
 datapointDecoder : Decode.Decoder Datapoint
 datapointDecoder =
