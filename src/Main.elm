@@ -34,10 +34,10 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case ( msg, model ) of
         ( GotScatterChartMsg subMsg, ScatterChart data scatterChart ) ->
-            ( model, Cmd.none )
+            ( ScatterChart data (ScatterChart.update subMsg scatterChart), Cmd.none )
 
         ( GotPercentileGraphMsg subMsg, PercentileGraph data percentileGraph ) ->
-            ( model, Cmd.none )
+            ( PercentileGraph data (PercentileGraph.update subMsg percentileGraph), Cmd.none )
 
         ( _, _ ) ->
             -- Disregard messages that arrived for the wrong page.

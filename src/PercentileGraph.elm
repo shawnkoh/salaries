@@ -1,4 +1,4 @@
-module PercentileGraph exposing (view, Model, Msg, init)
+module PercentileGraph exposing (view, Model, Msg, init, update)
 
 import Data exposing (Datapoint)
 import Percentile exposing (Percentile)
